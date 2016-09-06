@@ -1,6 +1,6 @@
 # ITT: Sistema de Monitoreo de Ancianos
 
-Una aplicación basada en [SailsJS](http://sailsjs.org) 
+Una aplicación basada en [SailsJS](http://sailsjs.org)
 
 ## Instalación ##
 
@@ -26,5 +26,5 @@ Inicia el servidor mediante SailsJS:
 
 Presiona `Ctrl + C` en cualquier momento para detener el servidor
 
-La página se encuentra en la dirección (http://localhost:1337). Vagrant automáticamente configura el
+La página se encuentra en la dirección (http://localhost:1337) . Vagrant automáticamente configura el
 port-forwarding del puerto 1337 entre el host y la máquina virtual.
