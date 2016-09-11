@@ -14,6 +14,7 @@ Vagrant.configure("2") do |config|
   # Add port-forward Sails.js application
   config.vm.network :forwarded_port, guest: 1337, host: 1337 #, auto_correct: true
   # Add port-forward for the MongoDB service
+  config.vm.network :forwarded_port, guest: 3000, host: 3000 #, auto_correct: true
   config.vm.network :forwarded_port, guest: 27017, host: 27017 #, auto_correct: true
 
   # Create a private network, which allows host-only access to the machine

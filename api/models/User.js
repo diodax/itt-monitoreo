@@ -2,6 +2,7 @@
  * User.js
  * @description :: Model for storing users
  */
+ 'use strict';
 
  module.exports = {
      schema: true,
