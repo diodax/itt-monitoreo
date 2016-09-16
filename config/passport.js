@@ -1,6 +1,8 @@
 /**
  * Passport configuration file where you should configure strategies
  */
+"use strict";
+
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var JwtStrategy = require('passport-jwt').Strategy;
@@ -12,7 +14,7 @@ var ALGORITHM = "HS256";
 var ISSUER = "nozus.com";
 var AUDIENCE = "nozus.com";
 
- /**
+/**
  * Configuration object for local strategy
  */
 var LOCAL_STRATEGY_CONFIG = {

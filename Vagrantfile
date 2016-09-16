@@ -40,6 +40,11 @@ Vagrant.configure("2") do |config|
     vb.customize ["modifyvm", :id, "--memory", "1024"]
   end
 
+  # Ovverrides the host locale to solve a bug with MongoDB
+  # Source: http://askubuntu.com/questions/536875/error-in-installing-mongo-in-virtual-machine 
+  ENV['LC_ALL']="en_US.UTF-8"
+
+
   # Enable provisioning with Puppet stand alone.  Puppet manifests
   # are contained in a directory path relative to this Vagrantfile.
   config.vm.provision :puppet do |puppet|

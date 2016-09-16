@@ -2,6 +2,8 @@
  * isAuthenticated
  * @description :: Policy to inject user in req via JSON Web Token
  */
+"use strict";
+
 var passport = require('passport');
 
 module.exports = function (req, res, next) {

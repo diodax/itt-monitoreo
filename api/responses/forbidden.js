@@ -11,6 +11,7 @@
  * return res.forbidden('Access denied.');
  * ```
  */
+"use strict";
 
 module.exports = function forbidden (data, options) {
 
@@ -86,4 +87,3 @@ module.exports = function forbidden (data, options) {
   });
 
 };
-
