@@ -11,6 +11,27 @@
 
 module.exports.bootstrap = function(cb) {
 
+  // Sets up custom Roles
+  Role.create({
+    name: 'doctor',
+    permissions: [{ model: 'patient', action: 'create' },
+                  { model: 'patient', action: 'read' },
+                  { model: 'patient', action: 'update' },
+                  { model: 'patient', action: 'delete' },
+                  { model: 'doctor', action: 'create' },
+                  { model: 'doctor', action: 'read', relation: 'owner' },
+                  { model: 'doctor', action: 'update', relation: 'owner' },
+                  { model: 'doctor', action: 'delete', relation: 'owner' }]
+  });
+
+  Role.create({
+    name: 'patient',
+    permissions: [{ model: 'patient', action: 'create' },
+                  { model: 'patient', action: 'read', relation: 'owner' },
+                  { model: 'patient', action: 'update', relation: 'owner' },
+                  { model: 'patient', action: 'delete', relation: 'owner' }]
+  });
+
   // It's very important to trigger this callback method when you are finished
   // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
   cb();

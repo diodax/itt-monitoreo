@@ -18,10 +18,19 @@
 "use strict";
 
 module.exports.policies = {
-
-    '*': ['isAuthenticated'],
+    '*': [
+      'basicAuth',
+      'passport',
+      'sessionAuth',
+      'ModelPolicy',
+      'AuditPolicy',
+      'OwnerPolicy',
+      'PermissionPolicy',
+      'RolePolicy',
+      'CriteriaPolicy'
+    ],
 
     AuthController: {
-        '*': true
+      '*': [ 'passport' ]
     }
 };
