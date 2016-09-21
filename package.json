@@ -46,5 +46,10 @@
     "url": "git://github.com/vagrant/itt-monitoreo.git"
   },
   "author": "vagrant",
-  "license": ""
+  "license": "",
+  "devDependencies": {
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-nodemon": "^2.1.0"
+  }
 }
