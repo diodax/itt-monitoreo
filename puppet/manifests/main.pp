@@ -72,15 +72,23 @@ class nodejs {
     path => ["/usr/bin", "/bin", "/usr/sbin", "/sbin", "/usr/local/bin", "/usr/local/sbin"],
     require => [Exec["install_node"], File['/vagrant'], Exec["npm-update"]]
   }
+
+  exec { "npm-gulp":
+    # cwd => "/vagrant",
+    command => "sudo npm -g install gulp",
+    #onlyif => ["test -d /vagrant/node_modules"],
+    path => ["/usr/bin", "/bin", "/usr/sbin", "/sbin", "/usr/local/bin", "/usr/local/sbin"],
+    require => [Exec["install_node"], File['/vagrant'], Exec["npm-update"]]
+  }
 }
 
 class mongodb {
   class {'::mongodb::globals':
-    manage_package_repo => true,
-    bind_ip             => ["127.0.0.1"],
+    manage_package_repo => true
   }->
   class {'::mongodb::server':
     port    => 27017,
+    bind_ip => ['0.0.0.0'],
     verbose => true,
     ensure  => "present"
   }->

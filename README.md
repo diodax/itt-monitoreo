@@ -20,11 +20,11 @@ Conecta a la máquina virtual via SSH:
 
     vagrant ssh
 
-Inicia el servidor mediante SailsJS:
+Inicia el servidor de SailsJS mediante Gulp:
 
-    sails lift
+    gulp
 
-Presiona `Ctrl + C` en cualquier momento para detener el servidor
+Presiona `Ctrl + C` en cualquier momento para detener el servidor, o escriba `rs` para reiniciarlo.
 
 La página se encuentra en la dirección <http://localhost:1337>. Vagrant automáticamente configura el
 port-forwarding del puerto 1337 entre el host y la máquina virtual.
