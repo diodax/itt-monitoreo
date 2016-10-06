@@ -65,6 +65,14 @@ class nodejs {
     require => [Exec["install_node"], File['/vagrant']]
   }
 
+  exec { "npm-bower":
+    # cwd => "/vagrant",
+    command => "sudo npm -g install bower",
+    #onlyif => ["test -d /vagrant/node_modules"],
+    path => ["/usr/bin", "/bin", "/usr/sbin", "/sbin", "/usr/local/bin", "/usr/local/sbin"],
+    require => [Exec["install_node"], File['/vagrant'], Exec["npm-update"]]
+  }
+
   exec { "npm-sails":
     # cwd => "/vagrant",
     command => "sudo npm -g install sails",
