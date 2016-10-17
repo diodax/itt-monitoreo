@@ -11,25 +11,37 @@
  *   https://github.com/balderdashy/sails-docs/blob/master/anatomy/myApp/tasks/pipeline.js.md
  */
 
-
 // CSS files to inject in order
 //
 // (if you're using LESS with the built-in default config, you'll want
 //  to change `assets/styles/importer.less` instead.)
 var cssFilesToInject = [
+  // Load bootstrap css files from the AdminLTE bower package
+  'bower_components/AdminLTE/bootstrap/css/bootstrap.min.css',
+
+  // AdminLTE Theme style
+  'bower_components/AdminLTE/dist/css/AdminLTE.min.css',
+
+  // AdminLTE skin/blue theme skin
+  'bower_components/AdminLTE/dist/css/skins/skin-blue.min.css',
+
+  // Everything else in the styles folder
   'styles/**/*.css'
 ];
-
 
 // Client-side javascript files to inject in order
 // (uses Grunt-style wildcard/glob/splat expressions)
 var jsFilesToInject = [
-
   // Load sails.io before everything else
   'js/dependencies/sails.io.js',
 
   // Dependencies like jQuery, or Angular are brought in here
+  'bower_components/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js',
+  'bower_components/AdminLTE/bootstrap/js/bootstrap.min.js',
   'js/dependencies/**/*.js',
+
+  // AdminLTE app js files
+  'bower_components/AdminLTE/dist/js/app.min.js',
 
   // All of the rest of your client-side js files
   // will be injected here in no particular order.
@@ -83,5 +95,3 @@ module.exports.templateFilesToInject = templateFilesToInject.map(function(tplPat
   }
   return require('path').join('assets/',tplPath);
 });
-
-
