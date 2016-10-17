@@ -46,4 +46,14 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
+  'get /admin': 'DashboardController.admin',
+  'get /doctor': 'DashboardController.doctor',
+  'get /patient': 'DashboardController.patient',
+
+  'post /auth/local': 'AuthController.callback',
+  'post /auth/local/:action': 'AuthController.callback',
+
+  'post /register': {model: 'user', blueprint: 'create'},
+  'post /login': 'AuthController.callback',
+
 };

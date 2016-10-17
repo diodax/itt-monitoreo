@@ -1,0 +1,21 @@
+{
+  "name": "itt-monitoreo",
+  "description": "a Sails application",
+  "main": "app.js",
+  "authors": [
+    "vagrant"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/diodax/itt-monitoreo",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "AdminLTE": "admin-lte#^2.3.6",
+    "iCheck": "icheck#^1.0.2"
+  }
+}
