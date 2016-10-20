@@ -32,9 +32,10 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  '/': {
-    view: 'homepage'
-  },
+  // '/': {
+  //   view: 'homepage'
+  // },
+  '/': 'DashboardController.index',
 
   /***************************************************************************
   *                                                                          *
@@ -46,6 +47,17 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
+  'get /login': {
+    view: 'dashboard/login',
+    locals: { layout: 'layout-login', title: 'ITT-M | Iniciar Sesión' }
+  },
+  'get /register': {
+    view: 'dashboard/register',
+    locals: { layout: 'layout-login', title: 'ITT-M | Registrarse' }
+  },
+  'get /logout': 'AuthController.logout',
+
+  'get /index': 'DashboardController.index',
   'get /admin': 'DashboardController.admin',
   'get /doctor': 'DashboardController.doctor',
   'get /patient': 'DashboardController.patient',
