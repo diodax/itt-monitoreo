@@ -1,8 +1,8 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Listado de Usuarios
-        <small>Version 2.0</small>
+        Mantenimiento de Usuarios
+        <small>Panel de Control</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-dashboard"></i> Inicio</a></li>
@@ -18,41 +18,52 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                <div class="box-header">
-                    <h3 class="box-title">Hover Data Table</h3>
+                <div class="box-header with-border">
+                    <h3 class="box-title"> <i class="fa fa-fw fa-users"></i> Usuarios</h3>
                 </div>
+
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <table id="example2" class="table table-bordered table-hover">
+                    <table class="table table-condensed table-bordered table-hover datatable-index">
                         <thead>
-                        <tr>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Creado</th>
-
-                        </tr>
+                            <tr>
+                                <th style="width: 1px;"></th>
+                                <th>Nombre de Usuario</th>
+                                <th>Correo Electrónico</th>
+                                <th>Fecha de Creación</th>
+                                <th>Roles</th>
+                                <th style="white-space: nowrap !important;"></th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <% for(var i=0; i < users.length; i++) { %>
-                        <tr>
-                            <td>
-                                <%= users[i].username %>
-                            </td>
-                            <td>
-                                <%= users[i].email %>
-                            </td>
-                            <td>
-                                <%= users[i].createdAt %>
-                        </tr>
-                        <% } %>
+                            <% for(var i=0; i < users.length; i++) { %>
+                                <tr>
+                                    <td>
+                                        <%= i %>
+                                    </td>
+                                    <td>
+                                        <%= users[i].username %>
+                                    </td>
+                                    <td>
+                                        <%= users[i].email %>
+                                    </td>
+                                    <td>
+                                        <%= users[i].createdAt %>
+                                    </td>
+                                    <td style="width: 15%;">
+                                      <% for(var j=0; j < users[i].roles.length; j++) { %>
+                                        <span class="label label-primary">
+                                           <%= users[i].roles[j].name %>
+                                        </span> &nbsp;
+                                      <% } %>
+                                    </td>
+                                    <td style="width: 1%; white-space: nowrap !important; text-align: right;">
+                                        <a class='btn btn-default'>Editar</a>
+                                        <a class='btn btn-danger'>Eliminar</a>
+                                    </td>
+                                </tr>
+                                <% } %>
                         </tbody>
-                        <!-- <tfoot>
-                            <tr>
-                                <th>Username</th>
-                                <th>Email</th>
-                                <th>Creado</th>
-                            </tr>
-                        </tfoot> -->
                     </table>
                 </div>
                 <!-- /.box-body -->
