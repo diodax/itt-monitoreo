@@ -19,6 +19,9 @@ var cssFilesToInject = [
   // Load bootstrap css files from the AdminLTE bower package
   'bower_components/AdminLTE/bootstrap/css/bootstrap.min.css',
 
+  // DataTables
+  'bower_components/AdminLTE/plugins/datatables/dataTables.bootstrap.css',
+
   // AdminLTE Theme style
   'bower_components/AdminLTE/dist/css/AdminLTE.min.css',
 
@@ -39,6 +42,10 @@ var jsFilesToInject = [
   'bower_components/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js',
   'bower_components/AdminLTE/bootstrap/js/bootstrap.min.js',
   'js/dependencies/**/*.js',
+
+  // DataTables
+  'bower_components/AdminLTE/plugins/datatables/jquery.dataTables.min.js',
+  'bower_components/AdminLTE/plugins/datatables/dataTables.bootstrap.min.js',
 
   // AdminLTE app js files
   'bower_components/AdminLTE/dist/js/app.min.js',
