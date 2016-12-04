@@ -64,6 +64,7 @@ module.exports.routes = {
 
   'post /auth/local': 'AuthController.callback',
   'post /auth/local/:action': 'AuthController.callback',
+  'post /bucket': 'BucketController.update',
 
   'post /register': {model: 'user', blueprint: 'create'},
   'post /login': 'AuthController.callback',

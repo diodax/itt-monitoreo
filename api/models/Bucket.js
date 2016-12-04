@@ -1,101 +1,133 @@
 /**
  * Bucket.js
  *
- * @description :: TODO: You might write a short summary of how this model works and what it represents here.
+ * @description :: A bucket model who represents the time series data recorded from the sensors
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  * @source      :: http://blog.mongodb.org/post/65517193370/schema-design-for-time-series-data-in-mongodb
  */
+'use strict';
+var _ = require('lodash');
 
 module.exports = {
 
-  attributes: {
-    // Referencia al User asociado a las mediciones
-    username: {
-      model: 'user'
+    attributes: {
+        // References the patient associated with the data
+        patient: {
+            model: 'user',
+            required: true
+        },
+
+        // TODO: Puse temporalmente la asociacion con user en vez de patient, porque es mas facil y ya
+        // References the patient associated with the data
+        // patient: {
+        //     model: 'patient',
+        //     required: true
+        // },
+
+        // Hour timestamp that represents the reading of the bucket
+        hourTimestamp: {
+            type: 'datetime',
+            required: true,
+            defaultsTo: Date.now()
+        },
+
+        // Number of samples collected
+        numSamples: {
+            type: 'integer',
+            defaultsTo: 0
+        },
+
+        // Sum of all of the readings collected
+        totalSamples: {
+            type: 'integer',
+            defaultsTo: 0
+        },
+
+        // Embedded object with the values of the readings
+        values: {
+            type: 'json',
+            isValidBucket: true
+        },
+
+        // Lifecyce callbacks
+        beforeCreate: function(values, cb) {
+            // Check if the objet is empty
+            if (_.isEmpty(values.values)) {
+                var readings = {};
+                var minute = {};
+                for (var i = 0; i < 60; i++) {
+                    minute[i] = 0;
+                }
+                for (var j = 0; j < 60; j++) {
+                    readings[i] = minute;
+                }
+                values.values = readings;
+            }
+            cb();
+        }
     },
 
-    hourTimestamp: {
-      type: 'datetime'
-    },
+    // Custom types / validation rules
+    // (available for use in this model's attribute definitions above)
+    types: {
+        isValidBucket: function(value) {
+            /**
+             * Checks if the inserted value is a valid integer
+             * @param { Object } obj - The values object to validate
+             * @param { Boolean } [checkValue = false] - Tells whenever or not to validate the data of the property
+             * @returns { Boolean } True if the value meets the criteria, false otherwise
+             */
+            function isValueValid(val) {
+                return _.isInteger(val) && val !== Infinity;
+            }
 
-    // Como Sails.js no soporta inline documents, se hace el siguiente force:
-    // Un atributo de timestamp para cada minuto, haciendo referencia a un modelo con los 60 segs.
-    // Asi se mantiene la validación de cada elemento, y se pueden hacer queries hasta los segundos
+            /**
+             * Checks if the object has 60 properties (one per each minute/second) ranging from 0 to 59
+             * @param { Object } obj - The values object to validate
+             * @param { Boolean } [checkValue = false] - Tells whenever or not to validate the data of the property
+             * @returns { Boolean } True if the object meets the criteria, false otherwise
+             */
+            function hasSixtyValues(obj, checkValue) {
+                if (typeof(checkValue) === 'undefined') {
+                    checkValue = false;
+                };
 
-    ts0: { model: 'minutes' },
-    ts1: { model: 'minutes' },
-    ts2: { model: 'minutes' },
-    ts3: { model: 'minutes' },
-    ts4: { model: 'minutes' },
-    ts5: { model: 'minutes' },
-    ts6: { model: 'minutes' },
-    ts7: { model: 'minutes' },
-    ts8: { model: 'minutes' },
-    ts9: { model: 'minutes' },
+                var result = true;
+                for (var i = 0; i < 60; i++) {
+                    result = result && _.has(obj, String(i));
+                    if (checkValue === true) {
+                        result = isValueValid(obj[String(i)]);
+                    }
+                    if (result === false) {
+                        break;
+                    } // Break early if a result is false
+                }
+                return result;
+            }
 
-    ts10: { model: 'minutes' },
-    ts11: { model: 'minutes' },
-    ts12: { model: 'minutes' },
-    ts13: { model: 'minutes' },
-    ts14: { model: 'minutes' },
-    ts15: { model: 'minutes' },
-    ts16: { model: 'minutes' },
-    ts17: { model: 'minutes' },
-    ts18: { model: 'minutes' },
-    ts19: { model: 'minutes' },
+            // Validation process
 
-    ts20: { model: 'minutes' },
-    ts21: { model: 'minutes' },
-    ts22: { model: 'minutes' },
-    ts23: { model: 'minutes' },
-    ts24: { model: 'minutes' },
-    ts25: { model: 'minutes' },
-    ts26: { model: 'minutes' },
-    ts27: { model: 'minutes' },
-    ts28: { model: 'minutes' },
-    ts29: { model: 'minutes' },
+            var hasSixtyMinutes = hasSixtyValues(value);
+            var hasSixtySecondsEach = true;
 
-    ts30: { model: 'minutes' },
-    ts31: { model: 'minutes' },
-    ts32: { model: 'minutes' },
-    ts33: { model: 'minutes' },
-    ts34: { model: 'minutes' },
-    ts35: { model: 'minutes' },
-    ts36: { model: 'minutes' },
-    ts37: { model: 'minutes' },
-    ts38: { model: 'minutes' },
-    ts39: { model: 'minutes' },
+            _.forOwn(value, function(val, key) {
+                hasSixtySecondsEach = hasSixtySecondsEach && hasSixtyValues(val, true);
+                if (hasSixtySecondsEach === false) {
+                    return false;
+                } // Break early if a result is false
+            });
 
-    ts40: { model: 'minutes' },
-    ts41: { model: 'minutes' },
-    ts42: { model: 'minutes' },
-    ts43: { model: 'minutes' },
-    ts44: { model: 'minutes' },
-    ts45: { model: 'minutes' },
-    ts46: { model: 'minutes' },
-    ts47: { model: 'minutes' },
-    ts48: { model: 'minutes' },
-    ts49: { model: 'minutes' },
+            return hasSixtyMinutes && hasSixtySecondsEach;
+        }
+    }
 
-    ts50: { model: 'minutes' },
-    ts51: { model: 'minutes' },
-    ts52: { model: 'minutes' },
-    ts53: { model: 'minutes' },
-    ts54: { model: 'minutes' },
-    ts55: { model: 'minutes' },
-    ts56: { model: 'minutes' },
-    ts57: { model: 'minutes' },
-    ts58: { model: 'minutes' },
-    ts59: { model: 'minutes' },
-
-  }
 };
+
 
 // Example Document
 //
 // {
 //   timestamp_hour: ISODate("2013-10-10T23:00:00.000Z"),
-//   type: “memory_used”,
 //   values: {
 //     0: { 0: 999999, 1: 999999, …, 59: 1000000 },
 //     1: { 0: 2000000, 1: 2000000, …, 59: 1000000 },
