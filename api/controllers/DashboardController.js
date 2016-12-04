@@ -92,6 +92,7 @@ module.exports = {
      */
     patient: function(req, res) {
         return res.view({
+            user: req.user.toJSON(),
             todo: 'patient() is not implemented yet!',
             id: req.user.id
         });
