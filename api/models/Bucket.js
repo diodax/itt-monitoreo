@@ -46,7 +46,18 @@ module.exports = {
         // Embedded object with the values of the readings
         values: {
             type: 'json',
-            isValidBucket: true
+            isValidBucket: true,
+            defaultsTo: function() {
+                var readings = {};
+                var minute = {};
+                for (var i = 0; i < 60; i++) {
+                    minute[i] = 0;
+                }
+                for (var j = 0; j < 60; j++) {
+                    readings[i] = minute;
+                }
+                return readings;
+            }
         },
 
         // Lifecyce callbacks
