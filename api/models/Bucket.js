@@ -46,7 +46,7 @@ module.exports = {
         // Embedded object with the values of the readings
         values: {
             type: 'json',
-            isValidBucket: true,
+            //isValidBucket: true,
             defaultsTo: function() {
                 var readings = {};
                 var minute = {};
