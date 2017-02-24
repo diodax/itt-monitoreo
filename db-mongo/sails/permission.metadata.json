@@ -1,1 +1,0 @@
-{ "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "name" : "_id_", "ns" : "sails.permission" }, { "v" : 1, "key" : { "action" : 1 }, "name" : "action_1", "ns" : "sails.permission", "sparse" : true }, { "v" : 1, "key" : { "relation" : 1 }, "name" : "relation_1", "ns" : "sails.permission", "sparse" : true } ] }

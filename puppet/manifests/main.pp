@@ -90,25 +90,25 @@ class nodejs {
   }
 }
 
-class mongodb {
-  class {'::mongodb::globals':
-    manage_package_repo => true
-  }->
-  class {'::mongodb::server':
-    port    => 27017,
-    bind_ip => ['0.0.0.0'],
-    verbose => true,
-    ensure  => "present"
-  }->
-  class {'::mongodb::client': }
-}
-
-class redis-cl {
-  class { 'redis': }
-}
+# class mongodb {
+#   class {'::mongodb::globals':
+#     manage_package_repo => true
+#   }->
+#   class {'::mongodb::server':
+#     port    => 27017,
+#     bind_ip => ['0.0.0.0'],
+#     verbose => true,
+#     ensure  => "present"
+#   }->
+#   class {'::mongodb::client': }
+# }
+#
+# class redis-cl {
+#   class { 'redis': }
+# }
 
 include apt_update
 include othertools
 include nodejs
-include mongodb
-include redis-cl
+# include mongodb
+# include redis-cl

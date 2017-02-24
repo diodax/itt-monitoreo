@@ -8,14 +8,14 @@ Vagrant.configure("2") do |config|
 
   # config.vm.network :forwarded_port, guest: 3000, host: 3000, auto_correct: true
   # Add port-forward for Redis
-  config.vm.network :forwarded_port, guest: 6379, host: 6379 #, auto_correct: true
+  # config.vm.network :forwarded_port, guest: 6379, host: 6379 #, auto_correct: true
   # Add port-forward for Node-inspector
   config.vm.network :forwarded_port, guest: 5858, host: 5858 #, auto_correct: true
   # Add port-forward Sails.js application
   config.vm.network :forwarded_port, guest: 1337, host: 1337 #, auto_correct: true
   # Add port-forward for the MongoDB service
-  config.vm.network :forwarded_port, guest: 3000, host: 3000 #, auto_correct: true
-  config.vm.network :forwarded_port, guest: 27017, host: 27017 #, auto_correct: true
+  # config.vm.network :forwarded_port, guest: 3000, host: 3000 #, auto_correct: true
+  # config.vm.network :forwarded_port, guest: 27017, host: 27017 #, auto_correct: true
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -41,7 +41,7 @@ Vagrant.configure("2") do |config|
   end
 
   # Ovverrides the host locale to solve a bug with MongoDB
-  # Source: http://askubuntu.com/questions/536875/error-in-installing-mongo-in-virtual-machine 
+  # Source: http://askubuntu.com/questions/536875/error-in-installing-mongo-in-virtual-machine
   ENV['LC_ALL']="en_US.UTF-8"
 
 
