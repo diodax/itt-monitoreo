@@ -28,6 +28,9 @@ var cssFilesToInject = [
   // AdminLTE skin/blue theme skin
   'bower_components/AdminLTE/dist/css/skins/skin-blue.min.css',
 
+  //iCheck
+  'bower_components/iCheck/skins/square/blue.css',
+
   // Everything else in the styles folder
   'styles/**/*.css'
 ];
@@ -49,6 +52,9 @@ var jsFilesToInject = [
 
   // AdminLTE app js files
   'bower_components/AdminLTE/dist/js/app.min.js',
+
+  // iCheck
+  'bower_components/iCheck/icheck.min.js',
 
   // All of the rest of your client-side js files
   // will be injected here in no particular order.
