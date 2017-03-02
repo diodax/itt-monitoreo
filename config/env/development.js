@@ -12,6 +12,9 @@
 
 module.exports = {
 
+  // Source: https://github.com/balderdashy/sails/issues/2691s
+  hookTimeout: 30000, // 30 seconds
+
   /***************************************************************************
    * Set the default database connection for models in the development       *
    * environment (see config/connections.js and config/models.js )           *
