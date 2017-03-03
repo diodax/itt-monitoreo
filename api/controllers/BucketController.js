@@ -55,10 +55,12 @@ module.exports = {
                     tempMin[valSecond] = req.body.bpm;
                     readings[valMinute] = tempMin;
 
-                    Bucket.findOne( { where: {
-                        //patient: user,
-                        hourTimestamp: new Date(moment(parsedTimestamp).format('YYYY-MM-DDTHH:mm:ss.SSS') + 'Z')
-                    }}).exec(function(err, found) {
+                    Bucket.findOne({
+                        where: {
+                            //patient: user,
+                            hourTimestamp: new Date(moment(parsedTimestamp).format('YYYY-MM-DDTHH:mm:ss.SSS') + 'Z')
+                        }
+                    }).exec(function(err, found) {
                         if (err) {
                             return res.serverError(err);
                         }
@@ -107,5 +109,44 @@ module.exports = {
                     return res.serverError("The timestamp is not valid!");
                 }
             });
+    },
+
+    /**
+     * `BucketController.pull()`
+     */
+    pull: function(req, res) {
+        // Checking req.username
+        User.findOne({
+            username: req.body.username
+        }).
+        exec(function(err, user) {
+            if (err) {
+                return res.serverError(err);
+            }
+            if (!user) {
+                return res.json("The user " + req.body.username + " doesn't exist!");
+            }
+            // Parameter: user object
+            req.user = user;
+
+            // Parameter: hours
+            var secs = req.param('secs');
+
+            // Buscar Buckets que cumplan con los parametros,
+            // orden de fecha descendiente (primero lo mas reciente)
+            Bucket.find({
+                patient: req.user
+            }).sort('hourTimestamp DESC').exec(function(err, found) {});
+            if (err) {
+                return res.serverError(err);
+            }
+            if (!found) {
+                // no results
+            } else {
+                // yes results
+                var buckets = found.slice(0, Math.ceil((secs / 60.0) / 60.0));
+                return res.json(buckets);
+            }
+        });
     }
 };
