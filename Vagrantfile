@@ -6,6 +6,13 @@ Vagrant.configure("2") do |config|
   # config.vm.box = "hashicorp/precise64"
   config.vm.box = "ubuntu/precise64"
 
+  # Set the timezone to the host timezone
+  require 'time'
+  offset = ((Time.zone_offset(Time.now.zone) / 60) / 60)
+  timezone_suffix = offset >= 0 ? "+#{offset.to_s}" : "#{offset.to_s}"
+  timezone = 'Etc/GMT' + timezone_suffix
+  config.vm.provision :shell, :inline => "sudo rm /etc/localtime && sudo ln -s /usr/share/zoneinfo/" + timezone + " /etc/localtime", run: "always"
+
   # config.vm.network :forwarded_port, guest: 3000, host: 3000, auto_correct: true
   # Add port-forward for Redis
   # config.vm.network :forwarded_port, guest: 6379, host: 6379 #, auto_correct: true

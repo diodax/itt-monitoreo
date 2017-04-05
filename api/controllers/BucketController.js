@@ -32,12 +32,20 @@ module.exports = {
                   return res.serverError("The timestamp is not valid!");
                 }
 
-                var parsedTimestamp = moment(req.body.timestamp).minutes(0).seconds(0).milliseconds(0).toISOString();
+                var d = new Date(req.body.timestamp);
+                //d.setMinutes(0, 0, 0);
+                d.setHours(d.getHours() + 4, 0, 0, 0);
+
+                var parsedTimestamp = d;  //   moment(req.body.timestamp).minutes(0).seconds(0).milliseconds(0); //.toISOString();
                 var valMinute = moment(req.body.timestamp).minutes();
                 var valSecond = moment(req.body.timestamp).seconds();
 
+                //sails.log.info('Timestamp received as: ' + req.body.timestamp);
+                //sails.log.info('Timestamp parsed as: ' + parsedTimestamp);
+
                 Bucket.findOne({
-                  where: { hourTimestamp: new Date(moment(parsedTimestamp).format('YYYY-MM-DDTHH:mm:ss.SSS') + 'Z') }
+                  where: { hourTimestamp: parsedTimestamp }
+                  //where: { hourTimestamp: new Date(moment(parsedTimestamp).format('YYYY-MM-DDTHH:mm:ss.SSS') + 'Z') }
                 }).populate('patient', { username: user.username })
                 .exec(function(err, found) {
                   if (err) { return res.serverError(err); }
@@ -58,6 +66,7 @@ module.exports = {
       // var username = req.body.username
       var username = req.param('username');   // Parameter: user name
       var secs = req.param('secs');           // Parameter: secs
+      //sails.log.info('username: ' + username + ', secs: ' + secs);
       getBucket(username, secs, req, res);
     }
 };
@@ -66,16 +75,27 @@ function getBucket(username, secs, req, res) {
   var date = new Date();
   var hours = Math.ceil((secs / 60.0) / 60.0 );
 
+  var d = new Date();
+  d.setMinutes(0, 0, 0);
+
+  var dateG = new Date();
+  dateG.setHours(dateG.getHours() - hours);
+
+  //sails.log.info('hours: ' + hours);
+  sails.log.info("Timestamp to create: " + d);
+  sails.log.info('greaterThanOrEqual ' + dateG);
+  sails.log.info('lessThanOrEqual ' + date);
+
   User.findOne({ username: username })
       .exec(function getUserCallback(err, user) {
         if (err) { return res.serverError(err); }
-        if (!user) { return res.json("The user " + req.body.username + " doesn't exist!"); }
+        if (!user) { return res.json("The user " + username + " doesn't exist!"); }
 
         // finds the bucket or creates an empty one
-        Bucket.findOrCreate({ hourTimestamp: { 'greaterThanOrEqual': date.setHours(date.getHours() - hours), 'lessThanOrEqual': date }},
+        Bucket.findOrCreate({ hourTimestamp: { 'greaterThanOrEqual': dateG, 'lessThanOrEqual': date }},
         {
             patient: user,
-            hourTimestamp: moment().minutes(0).seconds(0).milliseconds(0).toISOString(),
+            hourTimestamp: d,
             numSamples: 0,
             totalSamples: parseInt(0),
             values: createReadingsObject()
@@ -109,10 +129,10 @@ function handleBucketValues(buckets, totalPoints) {
   var firstIteration = true;
 
   //sails.log.info(_.omit(buckets,'values'));
-  sails.log.info(moment());
-  sails.log.info("current hour: " + currentHour);
-  sails.log.info("current minute: " + currentMinute);
-  sails.log.info("current second: " + currentSecond);
+  //sails.log.info(moment());
+  //sails.log.info("current hour: " + currentHour);
+  //sails.log.info("current minute: " + currentMinute);
+  //sails.log.info("current second: " + currentSecond);
   //sails.log.info(buckets);
   _.forEach(buckets, function(bucket) {
     // iterates through each bucket object
@@ -142,7 +162,7 @@ function handleBucketValues(buckets, totalPoints) {
         if (data.length < totalPoints) {
           //sails.log.info(bucket.values);
           var value = _.get(bucket.values, min.toString() + '.' + sec.toString(), 0);
-          sails.log.info("value from [" + min + ", " + sec + "]: " + value);
+          //sails.log.info("value from [" + min + ", " + sec + "]: " + value);
           data.push(value);
         }
       }
@@ -156,6 +176,7 @@ function handleBucketValues(buckets, totalPoints) {
       result.push([i, data[i]]);
   }
   //sails.log.info(result);
+  sails.log.info("Bucket pulled at: " + new Date());
   return result;
 }
 

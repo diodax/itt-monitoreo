@@ -35,7 +35,8 @@ $(document).ready(function() {
         for (var i = 0; i < data.length; ++i) {
             res.push([i, data[i]]);
         }
-
+        console.log("Resultado random: " + res);
+        //console.log(res);
         return res;
     }
 
@@ -67,15 +68,20 @@ $(document).ready(function() {
     var realtime = "on"; //If == to on then fetch data every x seconds. else stop fetching
     function update(username, secs) {
         // getting data from server
+        //console.log('username: ' + username + ', secs: ' + secs);
+
+        //console.log(new Date());
+
         $.get( "/bucket", { username: username, secs: secs } )
           .done(function( data ) {
             // finished loading
-            console.log(data);
+            console.log("Resultado de la DB: " + [data]);
+            //console.log([data]);
             interactive_plot.setData([data]);
-            // Since the axes don't change, we don't need to call plot.setupGrid()
+            interactive_plot.setupGrid();
             interactive_plot.draw();
             if (realtime === "on")
-                setTimeout(update, updateInterval);
+                setTimeout(function(){ update(username, secs); getRandomData(); }, updateInterval);
           });
     }
 
