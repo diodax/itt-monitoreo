@@ -82,9 +82,9 @@ function getBucket(username, secs, req, res) {
   dateG.setHours(dateG.getHours() - hours);
 
   //sails.log.info('hours: ' + hours);
-  sails.log.info("Timestamp to create: " + d);
-  sails.log.info('greaterThanOrEqual ' + dateG);
-  sails.log.info('lessThanOrEqual ' + date);
+  //sails.log.info("Timestamp to create: " + d);
+  //sails.log.info('greaterThanOrEqual ' + dateG);
+  //sails.log.info('lessThanOrEqual ' + date);
 
   User.findOne({ username: username })
       .exec(function getUserCallback(err, user) {
