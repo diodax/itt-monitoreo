@@ -69,5 +69,4 @@ module.exports.routes = {
 
   'post /register': {model: 'user', blueprint: 'create'},
   'post /login': 'AuthController.callback',
-
 };

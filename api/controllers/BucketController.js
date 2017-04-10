@@ -55,6 +55,23 @@ module.exports = {
                   } else {
                     updateBucket(found, valMinute, valSecond, req, res);
                   }
+
+                  //Message validations
+                  //check if bpm value is below the threshold or not
+
+                  Message.find({ requiredTics: { '>=': 0 } }).populate('user', { username: user.username })
+                    .exec(function getMessajeCallback(err, found) {
+                      //sails.log.info(found[0]);
+                      sails.log.info("Threshold is: " + found[0].bpmThreshold + " and BPM is: " + req.body.bpm);
+                      if (err) { return res.serverError(err); }
+                      if (found[0].bpmThreshold >= req.body.bpm) {
+                        // Alert, update the counter
+                        incrementTotalTics(found[0].id, found[0]);
+                      } else {
+                        // Not Alert, reset the counter
+                        resetTotalTics(found[0].id);
+                      }
+                    });
                 });
             });
     },
@@ -70,6 +87,31 @@ module.exports = {
       getBucket(username, secs, req, res);
     }
 };
+
+
+function incrementTotalTics(id, message) {
+    Message.update(id, { totalTics: ++message.totalTics }).exec(function incrementDone(err, updated){
+        if (err) { return res.serverError(err); }
+        //sails.log.info("Increased counter message" + JSON.stringify(updated));
+        //sails.log.info("totalTics: " +  updated[0].totalTics + " requiredTics: " + updated[0].requiredTics);
+        //sails.log.info(updated[0].totalTics >= updated[0].requiredTics);
+        if (updated[0].totalTics >= updated[0].requiredTics) {
+            // TODO: Send a friggin alert
+            sails.log.warn("LA ALERTA VA AQUI");
+
+            //
+        }
+    });
+}
+
+function resetTotalTics(id) {
+  Message.update(id, { totalTics: 0 }).exec(function incrementDone(err, updated){
+      if (err) { return res.serverError(err); }
+      // idk lol
+      sails.log.info("Reset counter message" + updated);
+  });
+}
+
 
 function getBucket(username, secs, req, res) {
   var date = new Date();
