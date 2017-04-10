@@ -1,0 +1,86 @@
+
+
+
+          <!-- Content Header (Page header) -->
+          <section class="content-header">
+              <h1>
+            Configuración de Mensajes SMS
+            <small>Version 2.0</small>
+          </h1>
+              <ol class="breadcrumb">
+                  <li><a href="/"><i class="fa fa-dashboard"></i> Inicio</a></li>
+                  <li><a href="/message/index">Mensajes</a></li>
+                  <li class="active">Crear</li>
+              </ol>
+          </section>
+
+          <!-- Main content -->
+          <section class="content">
+            <form action="/message/create" method="POST">
+              <!-- Your Page Content Here -->
+              <div class="row">
+                  <div class="col-xs-12">
+
+                    <div class="box box-info">
+                                <div class="box-header with-border">
+                                  <h3 class="box-title">Formulario de Creación</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <!-- form start -->
+                                <form class="form-horizontal">
+                                  <div class="box-body">
+                                    <!---->
+                                    <div class="form-group">
+                                    <div class="row">
+                                        <label for="user" class="col-sm-3 control-label" style="text-align: right; margin-bottom: 0px; padding-top: 7px;">Usuario</label>
+
+                                        <div class="col-sm-6">
+                                          <select class="form-control" id="user" name="user">
+                                            <% selectUsers.forEach(function(item) { %>
+                                              <option value="<%= item.id %>"><%= item.name %></option>
+                                            <% }); %>
+                                          </select>
+                                        </div>
+                                        <div class="col-sm-3"></div>
+                                      </div>
+                                    </div>
+                                    <!---->
+                                    <div class="form-group">
+                                    <div class="row">
+
+                                        <label for="bpmThreshold" class="col-sm-3 control-label" style="text-align: right; margin-bottom: 0px; padding-top: 7px;">Límite Inferior BPM</label>
+
+                                        <div class="col-sm-6">
+                                          <input type="number" class="form-control" id="bpmThreshold" name="bpmThreshold" value="100" min="1" max="400" placeholder="Límite Inferior BPM">
+                                        </div>
+                                        <div class="col-sm-3"></div>
+                                      </div>
+                                    </div>
+                                    <!---->
+                                    <div class="form-group">
+                                    <div class="row">
+
+                                        <label for="requiredTics" class="col-sm-3 control-label" style="text-align: right; margin-bottom: 0px; padding-top: 7px;">Tiempo de Espera</label>
+
+                                        <div class="col-sm-6">
+                                          <input type="range" class="slider-handle min-slider-handle round" role="slider" id="requiredTics" name="requiredTics" value="20" min="1" max="100" step="1" placeholder="Tiempo de Espera">
+                                        </div>
+                                        <div class="col-sm-3"></div>
+                                      </div>
+                                    </div>
+                                    <!---->
+                                  </div>
+                                  <!-- /.box-body -->
+                                  <div class="box-footer">
+                                    <a href="/message/index" class="btn btn-default">Cancelar</a>
+                                    <button type="submit" class="btn btn-primary">Crear</button>
+                                  </div>
+                                  <!-- /.box-footer -->
+                                </form>
+                              </div>
+
+                  </div>
+              </div>
+            </form>
+          </section>
+          <!-- /.content -->

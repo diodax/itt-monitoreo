@@ -13,6 +13,17 @@
 
 module.exports.bootstrap = function(cb) {
 
+  PermissionService.grant({ role: 'patient', model: 'Message', action: 'read'}),
+  PermissionService.grant({ role: 'patient', model: 'Message', action: 'create'}), 
+  PermissionService.grant({ role: 'patient', model: 'Message', action: 'update', relation: 'owner'}), 
+  PermissionService.grant({ role: 'patient', model: 'Message', action: 'delete', relation: 'owner'})
+
+  PermissionService.grant({ role: 'admin', model: 'Message', action: 'read'}),
+  PermissionService.grant({ role: 'admin', model: 'Message', action: 'create'}), 
+  PermissionService.grant({ role: 'admin', model: 'Message', action: 'update'}), 
+  PermissionService.grant({ role: 'admin', model: 'Message', action: 'delete'})
+
+
   // var doctor = _.merge(Doctor.findOne({ id: '57e93230c3cc91e706c632a4' }), { _attributes.patients: [{ id: '57e9325ec3cc91e706c632a5' },
   // { id: '57e93406c3cc91e706c632a6' }, { id: '57e93424c3cc91e706c632a7' }, { id: '57e9343fc3cc91e706c632a8' }] });
 

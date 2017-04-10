@@ -61,6 +61,7 @@ module.exports.routes = {
   'get /admin': 'DashboardController.admin',
   'get /doctor': 'DashboardController.doctor',
   'get /patient': 'DashboardController.patient',
+  'get /bucket': 'BucketController.pull',
 
   'post /auth/local': 'AuthController.callback',
   'post /auth/local/:action': 'AuthController.callback',
@@ -68,5 +69,4 @@ module.exports.routes = {
 
   'post /register': {model: 'user', blueprint: 'create'},
   'post /login': 'AuthController.callback',
-
 };

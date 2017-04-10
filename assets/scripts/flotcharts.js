@@ -9,6 +9,7 @@ $(document).ready(function() {
     // be fetched from a server
     var data = [],
         totalPoints = 100;
+    //console.log(window.username);
 
     function getRandomData() {
 
@@ -35,11 +36,12 @@ $(document).ready(function() {
         for (var i = 0; i < data.length; ++i) {
             res.push([i, data[i]]);
         }
-
+        //console.log("Resultado random: " + res);
+        //console.log(res);
         return res;
     }
 
-    var interactive_plot = $.plot("#interactive", [getRandomData()], {
+    var interactive_plot = $.plot("#interactive", [0,0], {
         grid: {
             borderColor: "#f3f3f3",
             borderWidth: 1,
@@ -55,7 +57,7 @@ $(document).ready(function() {
         },
         yaxis: {
             min: 0,
-            max: 100,
+            max: 400,
             show: true
         },
         xaxis: {
@@ -65,19 +67,28 @@ $(document).ready(function() {
 
     var updateInterval = 500; //Fetch data ever x milliseconds
     var realtime = "on"; //If == to on then fetch data every x seconds. else stop fetching
-    function update() {
+    function update(username, secs) {
+        // getting data from server
+        //console.log('username: ' + username + ', secs: ' + secs);
 
-        interactive_plot.setData([getRandomData()]);
+        //console.log(new Date());
 
-        // Since the axes don't change, we don't need to call plot.setupGrid()
-        interactive_plot.draw();
-        if (realtime === "on")
-            setTimeout(update, updateInterval);
+        $.get( "/bucket", { username: username, secs: secs } )
+          .done(function( data ) {
+            // finished loading
+            //console.log("Resultado de la DB: " + [data]);
+            //console.log([data]);
+            interactive_plot.setData([data]);
+            interactive_plot.setupGrid();
+            interactive_plot.draw();
+            if (realtime === "on")
+                setTimeout(function(){ update(username, secs); /*getRandomData();*/ }, updateInterval);
+          });
     }
 
     //INITIALIZE REALTIME DATA FETCHING
     if (realtime === "on") {
-        update();
+        update(window.username, totalPoints);
     }
     //REALTIME TOGGLE
     $("#realtime .btn").click(function() {
@@ -86,7 +97,7 @@ $(document).ready(function() {
         } else {
             realtime = "off";
         }
-        update();
+        update(window.username, totalPoints);
     });
     /*
      * END INTERACTIVE CHART

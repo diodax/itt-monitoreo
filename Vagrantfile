@@ -44,6 +44,17 @@ Vagrant.configure("2") do |config|
   # Source: http://askubuntu.com/questions/536875/error-in-installing-mongo-in-virtual-machine
   ENV['LC_ALL']="en_US.UTF-8"
 
+  # Sync the date and time with google's servers
+  # Source: http://askubuntu.com/questions/81293/what-is-the-command-to-update-time-and-date-from-internet/683136#683136
+  # Also: http://stackoverflow.com/questions/33939834/how-to-correct-system-clock-in-vagrant-automatically
+  # config.vm.provision "shell", inline: "date -s \"$(wget -qSO- --max-redirect=0 google.com 2>&1 | grep Date: | cut -d' ' -f5-8)Z\"", run: "always", privileged: true, upload_path: "/home/vagrant/tmp/vagrant-shell"
+
+  # Set the timezone to the host timezone
+  # require 'time'
+  # offset = ((Time.zone_offset(Time.now.zone) / 60) / 60)
+  # timezone_suffix = offset >= 0 ? "+#{offset.to_s}" : "#{offset.to_s}"
+  # timezone = 'Etc/GMT' + timezone_suffix
+  # config.vm.provision :shell, :inline => "sudo rm /etc/localtime && sudo ln -s /usr/share/zoneinfo/" + timezone + " /etc/localtime", run: "always"
 
   # Enable provisioning with Puppet stand alone.  Puppet manifests
   # are contained in a directory path relative to this Vagrantfile.
