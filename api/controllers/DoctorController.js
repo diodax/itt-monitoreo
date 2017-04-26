@@ -24,4 +24,16 @@ module.exports = {
 								});
 							});
     },
+
+    test: function(req, res) {
+      DoctorService.findOneByUser({ username: 'doctor' }, function findOneDone(err, data) {
+        if (err) { return res.serverError(err); }
+        return res.json(data);
+      });
+
+      // DoctorService.findAll(function findAllDone(err, data) {
+      //   if (err) { return res.serverError(err); }
+      //   return res.json(data);
+      // });
+    }
 };

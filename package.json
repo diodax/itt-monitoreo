@@ -5,6 +5,7 @@
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
+    "assert": "^1.4.1",
     "bcryptjs": "^2.3.0",
     "bower": "^1.7.9",
     "ejs": "2.3.4",

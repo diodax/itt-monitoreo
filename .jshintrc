@@ -1,0 +1,9 @@
+{
+  "node": true,
+  "globals": {
+    "module": true,
+    "Doctor": true,
+    "Patient": true,
+    "User": true
+  }
+}
