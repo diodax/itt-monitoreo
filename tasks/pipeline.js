@@ -76,11 +76,6 @@ var templateFilesToInject = [
 ];
 
 
-
-
-
-
-
 // Default path for public folder (see documentation for more information)
 var tmpPath = '.tmp/public/';
 

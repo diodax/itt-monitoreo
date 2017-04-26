@@ -96,10 +96,10 @@ function incrementTotalTics(id, message) {
         //sails.log.info("totalTics: " +  updated[0].totalTics + " requiredTics: " + updated[0].requiredTics);
         //sails.log.info(updated[0].totalTics >= updated[0].requiredTics);
         if (updated[0].totalTics >= updated[0].requiredTics) {
-            // TODO: Send a friggin alert
-            sails.log.warn("LA ALERTA VA AQUI");
-
-            //
+            sails.log.warn("Enviando Alerta al servicio SMS...");
+            // 1-829-572-5431
+            LambdaService.sendSMS({ message: 'El paciente se encuentra en estado de emergencia!', phoneNumber: '1-829-572-5431', subject: 'Alerta' });
+            setTotalTics(updated[0].id, -30);
         }
     });
 }
@@ -112,6 +112,13 @@ function resetTotalTics(id) {
   });
 }
 
+function setTotalTics(id, amount) {
+  Message.update(id, { totalTics: amount }).exec(function incrementDone(err, updated){
+      if (err) { return res.serverError(err); }
+      // idk lol
+      //sails.log.info("Set counter message" + updated);
+  });
+}
 
 function getBucket(username, secs, req, res) {
   var date = new Date();
@@ -218,7 +225,7 @@ function handleBucketValues(buckets, totalPoints) {
       result.push([i, data[i]]);
   }
   //sails.log.info(result);
-  sails.log.info("Bucket pulled at: " + new Date());
+  //sails.log.info("Bucket pulled at: " + new Date());
   return result;
 }
 

@@ -30,6 +30,7 @@
     "passport-http-bearer": "^1.0.1",
     "passport-twitter": "^1.0.4",
     "rc": "1.0.1",
+    "request": "^2.81.0",
     "sails": "~0.12.4",
     "sails-auth": "^2.1.3",
     "sails-disk": "~0.10.9",
