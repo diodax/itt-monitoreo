@@ -16,6 +16,7 @@
   ],
   "dependencies": {
     "AdminLTE": "admin-lte#^2.3.6",
-    "iCheck": "icheck#^1.0.2"
+    "iCheck": "icheck#^1.0.2",
+    "jquery-knob": "^1.2.13"
   }
 }

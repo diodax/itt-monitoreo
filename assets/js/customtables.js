@@ -31,9 +31,20 @@ $(document).ready(function() {
         }
     });
 
+    // Extrae el pathname de la url para saber cual es el controller, y en base a eso parsear una ruta
+    // al estilo /<modelo>/create para el boton de Agregar de la tabla, asumiendo que la url donde esta
+    // se encuentre es al estilo /<modelo>/index
+    var current_url = window.location.pathname;
+    var pathnames = current_url.split("/").reverse();
+    console.log(pathnames);
+    var create_url = '';
+    if (pathnames.length >= 2) {
+      create_url = '/' + pathnames[1] + '/create';
+    }
+
     //Appending Create Button
     $('#btn-create').append(
-        "<a data-modal='' data-target='#formModal' class='modal-link btn btn-primary' data-url=" + '@Url.Action("_Crear", "Formularios")' + ">" +
+        "<a href='" + create_url + "' class='modal-link btn btn-primary' " + ">" +
         "Crear &nbsp; " +
         '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> ' +
         "</a>");
