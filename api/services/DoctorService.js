@@ -64,26 +64,27 @@ module.exports = {
      *
      * @param {object} options - Dictionary with the helper's arguments
      * @param {object} options.id - The Doctor's id identifier
-     * @param {string[]} options.patients - The Array list of Patient's usernames
+     * @param {string[]} options.patients - The Array list of Patient's usernames. Can't be empty
      * @param {addedPatientsCallback} done - The callback that handles the response
      */
     addPatientsToDoctor: function(options, done) {
-        // check if patient list is empty
-        if (_.isEmpty(patients)) {
-            return Promise.reject(new Error('One or more patients must be provided'));
-        }
+        assert.ok(typeof options != "undefined", "argument 'options' must be specified");
+        assert.ok(options.id, "argument 'id' must be specified");
+        assert.ok(_.isArray(options.patients), "argument 'patients' must be an array");
+        assert.ok(!_.isEmpty(options.patients), "argument 'patients' must be a non-empty array");
 
-        if (!_.isArray(patients)) {
-            patients = [patients];
-        }
-
-        return User.find({
-                username: patients
-            })
-            .then(function(users) {
-                // buscar los id de cada usuario en la lista de pacientes
-            });
-        //
+        Doctor.find({ id: options.id })
+          .then(function onFullfilled(list) {
+            var doctor = _.head(list);
+            var listOfPatients = _.castArray(doctor.patients);
+            listOfPatients = _.concat(listOfPatients, options.patients); // TODO: array contains usernames, not id's. Should fix
+            return Doctor.update(doctor.id, { patients: listOfPatients });
+          }).then(function onFullfilled(doctorUpdated) {
+            // do something when the update is done
+            return done(null, doctorUpdated); // idk, what should I return?
+          }).catch(function onRejected(err) {
+            return done(err);
+          });
     },
 
     /**
@@ -100,6 +101,7 @@ module.exports = {
 
 /***** CALLBACKS *****/
 
+//TODO: Those two callbacks do the same, I should merge then together and just use one (foundDataCallback)
 /**
  * Callback for handling the results of the findeOneByUser helper method
  *
