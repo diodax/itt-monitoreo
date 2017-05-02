@@ -10,6 +10,7 @@
 'use strict';
 var _ = require('lodash');
 var assert = require('assert');
+var Promise = require('bluebird');
 
 module.exports = {
     /**
@@ -17,22 +18,22 @@ module.exports = {
      *
      * @param {object} options - Dictionary with the helper's arguments
      * @param {string} options.username - The User's username property
-     * @param {foundOneCallback} done - The callback that handles the response
+     * @param {gotDataCallback} done - The callback that handles the response. Returns an object as the data result. Not compatible with Promises.
      */
     findOneByUser: function(options, done) {
+        assert.ok(typeof options != "undefined", "argument 'options' must be specified");
+        //assert.ok(Array.isArray(options), "argument 'options' must be an object and not an array");
         assert.equal(typeof(options.username), 'string', "argument 'username' must be a string");
 
-        Doctor.findOne({
-                where: {
-                    user: {
-                        '!': null
-                    }
-                }
-            })
-            .populate('user', {
-                username: options.username
-            })
-            .exec(foundOneCallback.bind(null, done));
+        User.findOne({
+          username: options.username
+        }).then(function onFullfilled(user) {
+          return Doctor.findOne({ user: user.id }).populate('user');
+        }).then(function onFullfilled(doctor) {
+          return done(null, doctor);
+        }).catch(function onRejected(err) {
+          return done(err);
+        });
     },
 
     /**
@@ -53,10 +54,24 @@ module.exports = {
      *
      * @param {object} options - Dictionary with the helper's arguments
      * @param {string} options.username - The User's username property
-     * @param {gotPatientsCallback} done - The callback that handles the response
+     * @param {gotDataCallback} done - The callback that handles the response. Returns an array of objects as the data result. Not compatible with Promises.
      */
     getPatientList: function(options, done) {
+        assert.ok(typeof options != "undefined", "argument 'options' must be specified");
+        //assert.ok(Array.isArray(options), "argument 'options' must be an object and not an array");
         assert.equal(typeof(options.username), 'string', "argument 'username' must be a string");
+
+        User.findOne({
+          username: options.username
+        }).then(function onFullfilled(user) {
+          return Doctor.findOne({ user: user.id }).populate('user');
+        }).then(function onFullfilled(doctor) {
+          return Doctor.findOne(doctor.id).populate('patients');
+        }).then(function onFullfilled(doctor) {
+          return done(null, doctor.patients);
+        }).catch(function onRejected(err) {
+          return done(err);
+        });
     },
 
     /**
@@ -65,26 +80,40 @@ module.exports = {
      * @param {object} options - Dictionary with the helper's arguments
      * @param {object} options.id - The Doctor's id identifier
      * @param {string[]} options.patients - The Array list of Patient's usernames. Can't be empty
-     * @param {addedPatientsCallback} done - The callback that handles the response
+     * @param {addedPatientsCallback} done - The callback that handles the response. Returns true if the operation is successfull. Not compatible with Promises.
      */
     addPatientsToDoctor: function(options, done) {
         assert.ok(typeof options != "undefined", "argument 'options' must be specified");
+        //assert.ok(Array.isArray(options), "argument 'options' must be an object and not an array");
         assert.ok(options.id, "argument 'id' must be specified");
         assert.ok(_.isArray(options.patients), "argument 'patients' must be an array");
         assert.ok(!_.isEmpty(options.patients), "argument 'patients' must be a non-empty array");
 
-        Doctor.find({ id: options.id })
-          .then(function onFullfilled(list) {
-            var doctor = _.head(list);
-            var listOfPatients = _.castArray(doctor.patients);
-            listOfPatients = _.concat(listOfPatients, options.patients); // TODO: array contains usernames, not id's. Should fix
-            return Doctor.update(doctor.id, { patients: listOfPatients });
-          }).then(function onFullfilled(doctorUpdated) {
-            // do something when the update is done
-            return done(null, doctorUpdated); // idk, what should I return?
-          }).catch(function onRejected(err) {
-            return done(err);
+        //Step 1: find the Doctor's model id
+        //Step 2: get the Patient's id from the username (or multiple usernames)
+        //Step 3: use Doctor.patients.add() to add the Patient(s) to the Collection
+        //Step 4: call .save()
+
+        var promise1 = Doctor.findOne({ id: options.id });
+        var promise2 = new Promise(function promiseDone(resolve, reject) {
+          PatientService.findByUsername({ username: options.patients }, function findDone(error, patients) {
+            return error ? reject(error) : resolve(patients);
           });
+        });
+
+        Promise.all([
+          promise1,
+          promise2
+        ]).then(function onFullfilled(list) {
+          var doctorToAssign = list[0];
+          var patientsToAdd = list[1];
+          doctorToAssign.patients.add(_.map(patientsToAdd, 'id'));
+          return doctorToAssign.save(sails.log.info());
+        }).then(function onFullfilled() {
+          return done(null, true);
+        }).catch(function onRejected(err) {
+          return done(err);
+        });
     },
 
     /**
@@ -93,7 +122,7 @@ module.exports = {
      * @param {object} options - Dictionary with the helper's arguments
      * @param {object} options.id - The Doctor's id identifier
      * @param {string[]} options.patients - The Array list of Patient's usernames
-     * @param {removedPatientsCallback} done - The callback that handles the response
+     * @param {removedPatientsCallback} done - The callback that handles the response. Returns true if the operation is successfull. Not compatible with Promises.
      */
     removePatientsFromDoctor: function(options, done) {}
 

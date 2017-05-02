@@ -1,11 +1,11 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-  Listado de Doctores
-  <small>Version 2.0</small>
-</h1>
+        Mantenimiento de Doctores
+        <small>Version 2.0</small>
+    </h1>
     <ol class="breadcrumb">
-        <li><a href="/"><i class="fa fa-dashboard"></i> Inicio</a></li>
+        <li><a href="/"><i class="fa fa-dashboard"></i> Dashboard</a></li>
         <li class="active">Doctores</li>
     </ol>
 </section>
@@ -18,23 +18,29 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                <div class="box-header">
-                    <h3 class="box-title">Hover Data Table</h3>
+                <div class="box-header with-border">
+                    <h3 class="box-title"> <i class="fa fa-fw fa-user-md"></i> Doctores</h3>
                 </div>
+
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <table id="example2" class="table table-bordered table-hover">
+                    <table class="table table-condensed table-bordered table-hover datatable-index">
                         <thead>
                             <tr>
-                                <th>Username</th>
-                                <th>Email</th>
-                                <th>Creado</th>
+                                <th style="width: 1px;"></th>
+                                <th>Nombre de Usuario</th>
+                                <th>Correo Electrónico</th>
+                                <th>Fecha de Creación</th>
 
+                                <th style="white-space: nowrap !important;"></th>
                             </tr>
                         </thead>
                         <tbody>
                             <% for(var i=0; i < doctors.length; i++) { %>
                                 <tr>
+                                    <td>
+                                        <%= i %>
+                                    </td>
                                     <td>
                                         <%= doctors[i].user.username %>
                                     </td>
@@ -43,16 +49,15 @@
                                     </td>
                                     <td>
                                         <%= doctors[i].user.createdAt %>
+                                    </td>
+
+                                    <td style="width: 1%; white-space: nowrap !important; text-align: right;">
+                                        <a href='/user/find/?id=<%= doctors[i].id %>' class='btn btn-default'>Editar</a>
+                                        <a class='btn btn-danger'>Eliminar</a>
+                                    </td>
                                 </tr>
                                 <% } %>
                         </tbody>
-                        <!-- <tfoot>
-                            <tr>
-                                <th>Username</th>
-                                <th>Email</th>
-                                <th>Creado</th>
-                            </tr>
-                        </tfoot> -->
                     </table>
                 </div>
                 <!-- /.box-body -->

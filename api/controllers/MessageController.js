@@ -25,7 +25,7 @@ module.exports = {
       Message.findOne( { id: id } )
 						.exec(function findMessageFinished(err, message) {
 							if (err) { return res.serverError(err); }
-							if (!user) { return res.json("The message id: " + rid + " doesn't exist!"); }
+							if (!user) { return res.json("The message id: " + id + " doesn't exist!"); }
 							return res.view({
 								user: req.user.toJSON(),
 								message: message
