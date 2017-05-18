@@ -40,6 +40,16 @@ module.exports = {
       });
     },
 
+    test1promise: function(req, res) {
+      DoctorService.findOneByUser({
+        username: 'doctor'
+      }).then(function onFullfilled(data) {
+        return res.json(data);
+      }).catch(function onRejected(err) {
+        return res.serverError(err);
+      });
+    },
+
     test1: function(req, res) {
       DoctorService.findOneByUser({ username: 'doctor' }, function findOneDone(err, data) {
         if (err) { return res.serverError(err); }

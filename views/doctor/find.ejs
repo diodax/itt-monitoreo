@@ -1,24 +1,162 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1>
+  <h1>
   Editar Doctor
   <small>Version 2.0</small>
 </h1>
-    <ol class="breadcrumb">
-        <li><a href="/"><i class="fa fa-dashboard"></i> Inicio</a></li>
-        <li class="active"><a href="/doctor/index">Doctores</a></li>
-        <li class="active">Editar</li>
-    </ol>
+  <ol class="breadcrumb">
+    <li><a href="/"><i class="fa fa-dashboard"></i> Inicio</a></li>
+    <li class="active"><a href="/doctor/index">Doctores</a></li>
+    <li class="active">Editar</li>
+  </ol>
 </section>
 
 <!-- Main content -->
 <section class="content">
 
-    <!-- Your Page Content Here -->
+  <!-- Your Page Content Here -->
 
-    <div class="row">
-    
+  <div class="row">
+
+    <div class="col-md-3">
+
+      <!-- Profile Image -->
+      <div class="box box-widget widget-user-2">
+        <!-- Add the bg color to the header using any of the bg-* classes -->
+        <div class="widget-user-header bg-aqua-active">
+          <div class="widget-user-image">
+            <img class="img-circle" src="<%= user.gravatarUrl %>" alt="User Avatar">
+          </div>
+          <!-- /.widget-user-image -->
+          <h3 class="widget-user-username">Dr. Juan Pérez Rodríguez</h3>
+          <h5 class="widget-user-desc">Cirujano Vascular y Endovascular</h5>
+        </div>
+        <div class="box-footer no-padding">
+          <ul class="nav nav-stacked">
+            <li><a href="#"><i class="fa fa-fw fa-venus-mars"></i> Sexo <span class="pull-right text-muted">Masculino</span></a></li>
+            <li><a href="#"><i class="fa fa-fw fa-map-marker"></i> Dirección <span class="pull-right text-muted">Malibu, California</span></a></li>
+            <li><a href="#"><i class="fa fa-fw fa-phone"></i> Teléfonos <span class="pull-right text-muted">829-921-6779</span></a></li>
+            <li><a href="#"><i class="fa fa-fw fa-birthday-cake"></i> Fecha de Nacimiento <span class="pull-right text-muted">20/Mayo/1991</span></a></li>
+            <li><a href="#"><i class="fa fa-fw fa-hospital-o"></i> Lugar de Trabajo <span class="pull-right text-muted">Hospital Ramón de Lara</span></a></li>
+            <li>
+              <div class="box-body">
+                <a href="#" class="btn btn-primary btn-block navbar-btn"><i class="fa fa-fw fa-external-link"></i> Editar Datos de Usuario</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
     </div>
+
+    <div class="col-md-9">
+
+      <div class="box box-solid">
+        <div class="box-header with-border">
+          <i class="fa fa-stethoscope"></i>
+          <h3 class="box-title">Pacientes Asignados</h3>
+
+          <div class="box-tools">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+              </button>
+          </div>
+        </div>
+        <div class="box-body">
+
+          <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="Buscar...">
+            <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                </button>
+              </span>
+          </div>
+
+
+          <ul class="products-list product-list-in-box">
+            <li class="item">
+              <div class="col-md-1" style="display:table-cell; vertical-align:middle; text-align:center">
+                <img src="<%= user.gravatarUrl %>" class="img-responsive img-circle" alt="Product Image">
+              </div>
+              <div class="col-md-11">
+                <a href="javascript:void(0)" class="product-title">Ronald Pepe Smith</a>
+                <button type="button" class="btn btn-box-tool pull-right"><i class="fa fa-trash-o fa-2x"></i></button>
+                <span class="product-description"><b>Sexo:</b> Masculino</span>
+                <span class="product-description"><b>Edad:</b> 55 años</span>
+                <span class="label bg-green">Conectado</span>
+              </div>
+
+            </li>
+            <!-- /.item -->
+            <li class="item">
+              <div class="col-md-1" style="display:table-cell; vertical-align:middle; text-align:center">
+                <img src="<%= user.gravatarUrl %>" class="img-responsive img-circle" alt="Product Image">
+              </div>
+              <div class="col-md-11">
+                <a href="javascript:void(0)" class="product-title">Juan Pérez</a>
+                <button type="button" class="btn btn-box-tool pull-right"><i class="fa fa-trash-o fa-2x"></i></button>
+                <span class="product-description"><b>Sexo:</b> Masculino</span>
+                <span class="product-description"><b>Edad:</b> 49 años</span>
+                <span class="label bg-green">Conectado</span>
+              </div>
+
+            </li>
+            <!-- /.item -->
+            <li class="item">
+              <div class="col-md-1" style="display:table-cell; vertical-align:middle; text-align:center">
+                <img src="<%= user.gravatarUrl %>" class="img-responsive img-circle" alt="Product Image">
+              </div>
+              <div class="col-md-11">
+                <a href="javascript:void(0)" class="product-title">Juana Pérez</a>
+                <button type="button" class="btn btn-box-tool pull-right"><i class="fa fa-trash-o fa-2x"></i></button>
+                <span class="product-description"><b>Sexo:</b> Femenino</span>
+                <span class="product-description"><b>Edad:</b> 58 años</span>
+                <span class="label bg-green">Conectado</span>
+              </div>
+
+            </li>
+            <!-- /.item -->
+            <li class="item">
+              <div class="col-md-1" style="display:table-cell; vertical-align:middle; text-align:center">
+                <img src="<%= user.gravatarUrl %>" class="img-responsive img-circle" alt="Product Image">
+              </div>
+              <div class="col-md-11">
+                <a href="javascript:void(0)" class="product-title">Hanne Stahlschmidt</a>
+                <button type="button" class="btn btn-box-tool pull-right"><i class="fa fa-trash-o fa-2x"></i></button>
+                <span class="product-description"><b>Sexo:</b> Femenino</span>
+                <span class="product-description"><b>Edad:</b> 49 años</span>
+                <span class="label bg-green">Conectado</span>
+              </div>
+
+            </li>
+            <!-- /.item -->
+          </ul>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer text-center">
+          <div class="input-group">
+
+                <!-- /btn-group -->
+                <select class="form-control">
+                          <option>-- Seleccionar usuario --</option>
+                          <option>option 2</option>
+                          <option>option 3</option>
+                          <option>option 4</option>
+                          <option>option 5</option>
+                        </select>
+                <div class="input-group-btn">
+                  <button type="button" class="btn btn-primary">Agregar</button>
+                </div>
+              </div>
+
+
+
+        </div>
+        <!-- /.box-footer -->
+      </div>
+
+    </div>
+
+  </div>
 
 </section>
 <!-- /.content -->

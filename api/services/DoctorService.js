@@ -18,21 +18,28 @@ module.exports = {
      *
      * @param {object} options - Dictionary with the helper's arguments
      * @param {string} options.username - The User's username property
-     * @param {gotDataCallback} done - The callback that handles the response. Returns an object as the data result. Not compatible with Promises.
+     * @param {gotDataCallback} done - The callback that handles the response. Returns an object as the data result. Compatible with Promises.
      */
     findOneByUser: function(options, done) {
         assert.ok(typeof options != "undefined", "argument 'options' must be specified");
         //assert.ok(Array.isArray(options), "argument 'options' must be an object and not an array");
         assert.equal(typeof(options.username), 'string', "argument 'username' must be a string");
 
-        User.findOne({
-          username: options.username
-        }).then(function onFullfilled(user) {
-          return Doctor.findOne({ user: user.id }).populate('user');
-        }).then(function onFullfilled(doctor) {
-          return done(null, doctor);
-        }).catch(function onRejected(err) {
-          return done(err);
+        // default parameter
+        done = typeof done !== 'undefined' ? done : function() {};
+
+        return new Promise(function(resolve, reject) {
+          User.findOne({
+            username: options.username
+          }).then(function onFullfilled(user) {
+            return Doctor.findOne({ user: user.id }).populate('user');
+          }).then(function onFullfilled(doctor) {
+            resolve(doctor);
+            done(null, doctor);
+          }).catch(function onRejected(err) {
+            reject(err);
+            return done(err);
+          });
         });
     },
 
@@ -61,6 +68,9 @@ module.exports = {
         //assert.ok(Array.isArray(options), "argument 'options' must be an object and not an array");
         assert.equal(typeof(options.username), 'string', "argument 'username' must be a string");
 
+        // default parameter
+        done = typeof done !== 'undefined' ? done : function() {};
+
         User.findOne({
           username: options.username
         }).then(function onFullfilled(user) {
@@ -88,6 +98,9 @@ module.exports = {
         assert.ok(options.id, "argument 'id' must be specified");
         assert.ok(_.isArray(options.patients), "argument 'patients' must be an array");
         assert.ok(!_.isEmpty(options.patients), "argument 'patients' must be a non-empty array");
+
+        // default parameter
+        done = typeof done !== 'undefined' ? done : function() {};
 
         //Step 1: find the Doctor's model id
         //Step 2: get the Patient's id from the username (or multiple usernames)
